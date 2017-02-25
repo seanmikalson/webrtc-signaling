@@ -1,0 +1,23 @@
+{
+  "name": "signal-service",
+  "version": "1.0.0",
+  "description": "Signaling server for web rtc",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.14.1",
+    "node-persist": "^2.0.8",
+    "socket.io": "^1.7.2"
+  },
+  "scripts": {
+    "start": "node ./src/app.js",
+    "test": "mocha --ui bdd ./test/**/*_spec.js",
+    "test-debug": "mocha -d --ui bdd ./test/**/*_spec.js --debug-brk"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0",
+    "sinon": "^1.17.7"
+  }
+}
