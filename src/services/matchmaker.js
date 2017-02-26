@@ -19,6 +19,7 @@ Matchmaker.userConnected = function(id, userInfo, socket) {
   var allUsers = users.values();
   if(allUsers.length) {
     var firstUser = allUsers.pop();
+    firstUser.id = users.keys().pop();
     socket.emit('useravailable', firstUser);
     users.removeItemSync(users.keys().pop());
   } else {

@@ -48,7 +48,7 @@ describe('matchmaker', function() {
 
       Matchmaker.userConnected('userid', {userInfo: 'info'}, socket);
 
-      expect(socket.emit.calledWith('useravailable', {data: 'test'})).to.be.ok;
+      expect(socket.emit.calledWith('useravailable', {id: 'userid2', data: 'test'})).to.be.ok;
       expect(users.values().length).to.equal(0);
       expect(users.keys().length).to.equal(0);
     });
