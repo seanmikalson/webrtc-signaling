@@ -3,6 +3,7 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
 var MatchmakerService = require('./services/matchmaker');
+var ConnectionService = require('./services/connection');
 
 server.listen(3000);
 
@@ -12,7 +13,7 @@ app.get('/health', function (req, res) {
 
 io.on('connection', function(socket){
   MatchmakerService(socket);
-  //ConnectionService(socket);
+  ConnectionService(socket);
 });
 
 io.on('connection', function (socket) {

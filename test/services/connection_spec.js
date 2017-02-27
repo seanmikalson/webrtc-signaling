@@ -1,8 +1,7 @@
 var expect = require('chai').expect;
 var sinon = require('sinon');
-var Matchmaker = require('../../src/services/matchmaker');
 var Connection = require('../../src/services/connection');
-var storage = require('node-persist');
+var matchedusers = require('../../src/models/model').matchedusers;
 
 describe('ConnectionService', function() {
   var socket;
@@ -27,10 +26,10 @@ describe('ConnectionService', function() {
         return socket;
       });
 
-      Matchmaker.users.setItemSync('userId2', {data: 'hello'})
+      matchedusers.setItemSync('userId2', {data: 'hello'})
       socket.id = 'userId2';
 
-      Connection.acceptMeeting('userId', socket);
+      Connection.acceptMeeting({id: 'userId'}, socket);
 
       expect(socket.to.calledWith('userId')).to.be.ok;
       expect(socket.emit.calledWith('useravailable', {id:'userId2', data: 'hello'})).to.be.ok;
@@ -54,7 +53,7 @@ describe('ConnectionService', function() {
       Connection.sessionDescription(sessionDescriptionData, socket);
 
       expect(socket.to.calledWith('user')).to.be.ok;
-      expect(socket.emit.calledWith('sessiondescription', {id:'user', sessionDescription: 'sdp'})).to.be.ok;
+      expect(socket.emit.calledWith('session-description', {id:'user', sessionDescription: 'sdp'})).to.be.ok;
     });
   });
 
@@ -75,7 +74,7 @@ describe('ConnectionService', function() {
       Connection.iceCandidate(iceData, socket);
 
       expect(socket.to.calledWith('user')).to.be.ok;
-      expect(socket.emit.calledWith('icecandidate', {id:'user', iceData: 'ice'})).to.be.ok;
+      expect(socket.emit.calledWith('ice-candidate', {id:'user', iceData: 'ice'})).to.be.ok;
     });
   });
 });

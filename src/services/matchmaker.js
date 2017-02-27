@@ -1,9 +1,5 @@
-var storage = require('node-persist');
-
-var users = storage.create();
-users.initSync({
-  dir: './data/users'
-});
+var users = require('../models/model').users;
+var matchedusers = require('../models/model').matchedusers;
 
 var Matchmaker = function(socket) {
   socket.on('userconnected', function(userInfo) {
@@ -22,6 +18,8 @@ Matchmaker.userConnected = function(id, userInfo, socket) {
     firstUser.id = users.keys().pop();
     socket.emit('useravailable', firstUser);
     users.removeItemSync(users.keys().pop());
+    matchedusers.setItemSync(firstUser.id, firstUser);
+    matchedusers.setItemSync(socket.id, userInfo);
   } else {
     users.setItemSync(id, userInfo);
     socket.emit('waitforusers', {});

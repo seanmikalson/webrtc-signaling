@@ -1,13 +1,17 @@
 var expect = require('chai').expect;
 var sinon = require('sinon');
 var Matchmaker = require('../../src/services/matchmaker');
-var storage = require('node-persist');
+var matchedusers =  require('../../src/models/model').matchedusers;
 
 describe('matchmaker', function() {
 
   var socket, users;
   before(function(){
     users = Matchmaker.users;
+  });
+
+  after(function() {
+    matchedusers.clear();
   });
 
   beforeEach(function() {
@@ -18,7 +22,9 @@ describe('matchmaker', function() {
       emit: function() {}
     };
 
-    return users.clear();
+    return users.clear().then(function() {
+      return matchedusers.clear();
+    });
   });
 
   describe('userConnected', function() {
@@ -43,8 +49,9 @@ describe('matchmaker', function() {
     });
 
     it('notifies user is available on connection', function() {
-      sinon.spy(socket, 'emit')
-      users.setItemSync('userid2', {data: 'test'});
+      sinon.spy(socket, 'emit');
+      socket.id = 'userid';
+      Matchmaker.users.setItemSync('userid2', {data: 'test'});
 
       Matchmaker.userConnected('userid', {userInfo: 'info'}, socket);
 

@@ -10,6 +10,7 @@
   },
   "scripts": {
     "start": "node ./src/app.js",
+    "start-debug": "node --debug-brk ./src/app.js",
     "test": "mocha --ui bdd ./test/**/*_spec.js",
     "test-debug": "mocha -d --ui bdd ./test/**/*_spec.js --debug-brk"
   },
